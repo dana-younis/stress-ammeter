@@ -20,21 +20,23 @@ io.on('connection', (socket) => {
   socket.on('join', (payload) => {
     // socket.join will put the socket in a private room
     socket.join(staffRoom);
-    socket.to(staffRoom).emit('onlineStaff', { name: payload.name, id: socket.id });
+    socket.to(staffRoom).emit('onlineStaff', { name: payload.name, id: socket.id, score: payload.score });
   });
   socket.on('createTicket', (payload) => {
     // 2
     socket
       .in(staffRoom)
-      .emit('newTicket', { ...payload, id: uuidv4(), socketId: socket.id });
+      .emit('newTicket', { ...payload, id: uuidv4(), socketId: socket.id, score: payload.score });
   });
 
   socket.on('claim', (payload) => {
-    // when a TA claim the ticket we need to notify the student
-    socket.to(payload.studentId).emit('claimed', { name: payload.name });
+    // 2
+    socket
+      .in(staffRoom)
+      .emit('newTicket', { ...payload, id: uuidv4(), socketId: socket.id, score: payload.score });
   });
   socket.on('disconnect', () => {
-    socket.to(staffRoom).emit('offlineStaff', { id: socket.id });
+    socket.to(staffRoom).emit('offlineStaff', { id: socket.id, score: payload.score });
   });
 });
 server.listen(PORT, () => {
