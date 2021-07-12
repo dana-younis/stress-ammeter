@@ -10,20 +10,23 @@ class Admin extends React.Component {
       staffName: '',
       tickets: [],
       onlineStaff: [],
+      counter: 0
+
     };
   }
   componentDidMount() {
     // run once when component is mounted
-    const staffName = prompt("WHAT's your name?");
+    const staffName = prompt("WHAT's your name ta ?");
+    const score = this.state.counter
     this.setState({ staffName });
     socket.on('connect', () => {
       //1a
-      socket.emit('join', { name: staffName });
+      socket.emit('join', { name: staffName, score: score });
       socket.on('newTicket', (payload) => {
-        this.setState({ tickets: [...this.state.tickets, payload] });
+        this.setState({ tickets: [...this.state.tickets, payload], });
       });
       socket.on('onlineStaff', (payload) => {
-        this.setState({ onlineStaff: [...this.state.onlineStaff, payload] });
+        this.setState({ onlineStaff: [...this.state.onlineStaff, payload], });
       });
       socket.on('offlineStaff', (payload) => {
         this.setState({
@@ -32,9 +35,12 @@ class Admin extends React.Component {
       });
     });
   }
-  handleClaim = (id, socketId) => {
+  handleClaim = (id, socketId, counter, studentName) => {
     console.log(socketId);
-    socket.emit('claim', { id, name: this.state.staffName, studentId: socketId });
+    console.log(counter);
+    this.setState({ counter: counter })
+
+    socket.emit('claim', { id, name: { studentName: studentName, score: counter }, studentId: socketId, score: this.state.counter });
   };
   render() {
     return (
@@ -52,7 +58,7 @@ class Admin extends React.Component {
         <aside id="online-staff">
           <h2>Available TAs</h2>
           {this.state.onlineStaff.map((staff) => (
-            <h2 key={staff.id}>{staff.name}</h2>
+            <h2 key={staff.id}> {staff.name}</h2>
           ))}
         </aside>
       </main>

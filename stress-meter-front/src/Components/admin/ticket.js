@@ -1,12 +1,9 @@
-export default function Ticket(props){
-  return(
+export default function Ticket(props) {
+  return (
     <article className="ticket">
-      <h2>{props.question}</h2>
-      <p>type:{props.type}</p>
-      <p>course: {props.course}</p>
-      <p>time:{new Date(props.created_at).toLocaleDateString()}</p>
-      <p>Student Name: {props.studentName}</p>
-      <button onClick={()=>props.handleClaim(props.id,props.socketId)}>Claim</button>
+      <h2> bbbb {props.studentName}</h2>
+      <p>score: {props.counter}</p>
+      <button onClick={() => props.handleClaim(props.id, props.socketId, props.counter, props.studentName)}>Claim</button>
     </article>
   )
 }
