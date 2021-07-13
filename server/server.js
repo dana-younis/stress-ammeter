@@ -16,7 +16,7 @@ const socket = io(server, {
 })
 
 socket.on('connection', (socket) => {
-  console.log('clie.nt connected', socket.id);
+  console.log('client connected', socket.id);
 
   socket.on('counter', (payload) => {
     console.log(",,,", payload.counter)
