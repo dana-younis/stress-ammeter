@@ -38,8 +38,23 @@ export default class App extends React.Component {
     socket.emit("counter", { ...this.state });
     socket.on("result", (payload) => {
       console.log(payload);
-      if (payload.counter <= 6) {
+      if (payload.counter >= 1 && payload.counter <= 6) {
         alert(`your score is ${payload.counter} and you have Few Hassles `)
+      }
+      else if(payload.counter >= 7 && payload<=12) {
+        alert(`your score is ${payload.counter} and you have Pretty Good Control `)
+      }
+      else if(payload.counter >= 13 && payload.counter <=17) {
+        alert(`your score is ${payload.counter} and you have Danger Zone. Watch out! `)
+      }
+      else if(payload.counter >= 18) {
+        alert(`your score is ${payload.counter} and you have Stressed Out. Take steps to reduce the stress in your life now `)
+      }
+      else if(payload.counter === 0 ) {
+        alert(`your score is ${payload.counter} you are cool `)
+      }
+      else {
+        alert(`your score is ${payload.counter} please answer the questions `)
       }
     });
   }
