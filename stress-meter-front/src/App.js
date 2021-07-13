@@ -82,7 +82,7 @@ export default class App extends React.Component {
     const payload = {
       ...this.state,
     };
-    console.log( payload);
+    console.log('hello', payload);
   };
   render() {
     return (
