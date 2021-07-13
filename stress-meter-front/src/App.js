@@ -18,14 +18,21 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      counter: 0
-
+      counter: 0,
+      studentName: ''
     };
 
   }
+ 
+  
+ 
 
   yesFunction = () => {
-    this.setState({ counter: this.state.counter + 1 });
+   
+   
+    this.setState({ counter: this.state.counter + 1,
+    
+     });
 
   }
   emitCounters = () => {
@@ -39,28 +46,32 @@ export default class App extends React.Component {
     socket.emit("counter", { ...this.state });
     socket.on("result", (payload) => {
       console.log(payload);
+      
       if (payload.counter >= 1 && payload.counter <= 6) {
-        alert(`your score is ${payload.counter} and you have Few Hassles `)
+        
+        alert (`Hello ${this.state.studentName}  your score is ${payload.counter} and you have Few Hassles `)
       }
       else if (payload.counter > 6 && payload.counter <= 12) {
-        alert(`your score is ${payload.counter} and you have Pretty Good Control `)
+        alert(`Hello ${this.state.studentName}  your score is ${payload.counter} and you have Pretty Good Control `)
       }
       else if (payload.counter > 12 && payload.counter <= 17) {
-        alert(`your score is ${payload.counter} and you have Danger Zone. Watch out! `)
+        alert(`Hello ${this.state.studentName}  your score is ${payload.counter} and you have Danger Zone. Watch out! `)
       }
       else if (payload.counter > 17 && payload.counter <= 22) {
-        alert(`your score is ${payload.counter} and you have Stressed Out. Take steps to reduce the stress in your life now `)
+        alert(`Hello ${this.state.studentName}  your score is ${payload.counter} and you have Stressed Out. Take steps to reduce the stress in your life now `)
       }
       else if (payload.counter === 0) {
-        alert(`your score is ${payload.counter} you are cool `)
+        alert(`Hello ${this.state.studentName}  your score is ${payload.counter} you are cool `)
       }
       else {
-        alert(`your score is ${payload.counter} please answer the questions `)
+        alert(`Hello ${this.state.studentName}  your score is ${payload.counter} please answer the questions `)
       }
     });
   }
 
   componentDidMount() {
+    const studentName = prompt("WHAT's your name?");
+    this.setState({ studentName });
     const options = {
       transport: ['websocket'],
       upgrade: false,
