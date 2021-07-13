@@ -1,14 +1,71 @@
-import logo from './logo.svg';
-import './App.css';
-import Header from './Components/header';
-import Main from './Components/main';
-function App() {
-  return (
-    <>
-      <Header />
-      <Main />
-    </>
-  );
+
+
+
+// import Header from './Components/header';
+import Main from './component/Main';
+import io from 'socket.io-client'
+import Button from 'react-bootstrap/Button'
+
+import "react-bootstrap/dist/react-bootstrap.min.js";
+import React from 'react'
+import Card from './component/QCard';
+let socket;
+
+export default class App extends React.Component {
+
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      counter: 0
+
+    };
+
+  }
+
+  yesFunction = () => {
+    this.setState({ counter: this.state.counter + 1 });
+
+  }
+  emitCounters = () => {
+    console.log("kkkkkkkk");
+    const options = {
+      transport: ['websocket'],
+      upgrade: false,
+    };
+    socket = io('http://localhost:5000/', options);
+
+    socket.emit("counter", { ...this.state });
+    socket.on("result", (payload) => {
+      console.log(payload);
+      if (payload.counter <= 6) {
+        alert(`your score is ${payload.counter} and you have Few Hassles `)
+      }
+    });
+  }
+
+  componentDidMount() {
+    const options = {
+      transport: ['websocket'],
+      upgrade: false,
+    };
+    socket = io('http://localhost:5000/', options);
+
+    socket.on("connection", socket => {
+      console.log("hihi");
+    });
+  }
+  render() {
+    return (
+      <div>
+        {console.log(this.state.counter)}
+        <Main />
+        <Card yesFunction={this.yesFunction} />
+        <Button variant="primary" onClick={this.emitCounters}>see the result </Button>
+      </div>
+    )
+  }
 }
 
-export default App;
+
+
