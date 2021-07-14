@@ -13,7 +13,8 @@ export default class Navbarnav extends React.Component {
           <Nav className="me-auto">
             <Nav.Link href="#home">Home</Nav.Link>
             <Nav.Link href="#features">calm music</Nav.Link>
-            <Nav.Link href="#pricing">email</Nav.Link>
+            <Nav.Link exact path="/admin">Others' results</Nav.Link>
+           
           </Nav>
         </Container>
       </Navbar>
