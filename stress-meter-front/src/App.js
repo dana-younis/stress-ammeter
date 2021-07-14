@@ -64,6 +64,7 @@ export default class App extends React.Component {
   componentDidMount() {
     const studentName = prompt("WHAT's your name?");
     this.setState({ studentName });
+
     const options = {
       transport: ['websocket'],
       upgrade: false,
@@ -77,12 +78,13 @@ export default class App extends React.Component {
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
-  handleSubmit = (e) => {
-    e.preventDefault();
+  handleSubmit = () => {
+    // e.preventDefault();
     const payload = {
       ...this.state,
     };
     console.log('hello', payload);
+    this.emitCounters();
   };
   render() {
     return (
@@ -92,7 +94,7 @@ export default class App extends React.Component {
         <Card yesFunction={this.yesFunction} />
         <Button
           variant="primary"
-          onClick={this.emitCounters}
+          onClick={this.handleSubmit}
           style={{ marginLeft: '416px', width: '527px' }}
         >
           see the result{' '}
