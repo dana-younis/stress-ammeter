@@ -2,13 +2,18 @@
 // import Main from './component/Main';
 import io from 'socket.io-client';
 import Button from 'react-bootstrap/Button';
-
-import 'react-bootstrap/dist/react-bootstrap.min.js';
 import React from 'react';
 import Card from './component/QCard';
 import Navbarnav from './component/Navbarnav';
-let socket;
 
+import User from './component/User'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+
+} from "react-router-dom";
+let socket;
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -64,7 +69,6 @@ export default class App extends React.Component {
   componentDidMount() {
     const studentName = prompt("WHAT's your name?");
     this.setState({ studentName });
-
     const options = {
       transport: ['websocket'],
       upgrade: false,
@@ -78,28 +82,43 @@ export default class App extends React.Component {
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
-  handleSubmit = () => {
-    // e.preventDefault();
+  handleSubmit = (e) => {
+    e.preventDefault();
     const payload = {
       ...this.state,
     };
-    console.log('hello', payload);
-    this.emitCounters();
+    console.log(payload);
   };
   render() {
     return (
-      <div>
-        {console.log(this.state.counter)}
+
+
+
+      <Router  >
+
         <Navbarnav />
-        <Card yesFunction={this.yesFunction} />
-        <Button
-          variant="primary"
-          onClick={this.handleSubmit}
-          style={{ marginLeft: '416px', width: '527px' }}
-        >
-          see the result{' '}
-        </Button>
-      </div>
+
+        <Switch>
+
+          <Route path="/users">
+            <User />
+          </Route>
+          <Route path="/">
+            <Card yesFunction={this.yesFunction} />
+            <Button
+              variant="primary"
+              onClick={this.emitCounters}
+              style={{ marginLeft: '416px', width: '527px' }}
+            >
+              see the result{' '}
+            </Button>
+          </Route>
+        </Switch>
+
+      </Router >
+
+
+
     );
   }
 }

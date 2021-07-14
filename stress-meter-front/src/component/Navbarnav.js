@@ -9,12 +9,11 @@ export default class Navbarnav extends React.Component {
     return (
       <Navbar bg="dark" variant="dark" sticky="top" className="Navbar">
         <Container>
-          <Navbar.Brand href="#home">Stress meter</Navbar.Brand>
+          <Navbar.Brand href="/">Stress meter</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">calm music</Nav.Link>
-            <Nav.Link exact path="/admin">Others' results</Nav.Link>
-           
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="https://www.youtube.com/watch?v=pkL9YHoTiYM">calm music</Nav.Link>
+            <Nav.Link href="/users">profile</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
