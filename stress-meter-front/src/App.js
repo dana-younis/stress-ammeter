@@ -5,8 +5,15 @@ import Button from 'react-bootstrap/Button';
 import React from 'react';
 import Card from './component/QCard';
 import Navbarnav from './component/Navbarnav';
-let socket;
 
+import User from './component/User'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+
+} from "react-router-dom";
+let socket;
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -84,18 +91,34 @@ export default class App extends React.Component {
   };
   render() {
     return (
-      <div>
-        {console.log(this.state.counter)}
+
+
+
+      <Router  >
+
         <Navbarnav />
-        <Card yesFunction={this.yesFunction} />
-        <Button
-          variant="primary"
-          onClick={this.emitCounters}
-          style={{ marginLeft: '416px', width: '527px' }}
-        >
-          see the result{' '}
-        </Button>
-      </div>
+
+        <Switch>
+
+          <Route path="/users">
+            <User />
+          </Route>
+          <Route path="/">
+            <Card yesFunction={this.yesFunction} />
+            <Button
+              variant="primary"
+              onClick={this.emitCounters}
+              style={{ marginLeft: '416px', width: '527px' }}
+            >
+              see the result{' '}
+            </Button>
+          </Route>
+        </Switch>
+
+      </Router >
+
+
+
     );
   }
 }
