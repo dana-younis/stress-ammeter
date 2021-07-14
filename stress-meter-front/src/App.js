@@ -2,8 +2,6 @@
 // import Main from './component/Main';
 import io from 'socket.io-client';
 import Button from 'react-bootstrap/Button';
-
-import 'react-bootstrap/dist/react-bootstrap.min.js';
 import React from 'react';
 import Card from './component/QCard';
 import Navbarnav from './component/Navbarnav';
@@ -82,7 +80,7 @@ export default class App extends React.Component {
     const payload = {
       ...this.state,
     };
-    console.log( payload);
+    console.log(payload);
   };
   render() {
     return (

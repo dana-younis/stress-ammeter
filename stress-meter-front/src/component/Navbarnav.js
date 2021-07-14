@@ -12,7 +12,7 @@ export default class Navbarnav extends React.Component {
           <Navbar.Brand href="#home">Stress meter</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">calm music</Nav.Link>
+            <Nav.Link href="https://www.youtube.com/watch?v=pkL9YHoTiYM">calm music</Nav.Link>
             <Nav.Link href="#pricing">email</Nav.Link>
           </Nav>
         </Container>
