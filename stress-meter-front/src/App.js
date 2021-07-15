@@ -1,25 +1,18 @@
 // import Header from './Components/header';
 // import Main from './component/Main';
-import io from 'socket.io-client';
+
 import Button from 'react-bootstrap/Button';
 import React from 'react';
 import Card from './component/QCard';
-import Navbarnav from './component/Navbarnav';
 
-import User from './component/User'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
 
-} from "react-router-dom";
-let socket;
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       counter: 0,
       studentName: '',
+
     };
   }
 
@@ -28,39 +21,35 @@ export default class App extends React.Component {
   };
   emitCounters = () => {
     console.log('kkkkkkkk');
-    const options = {
-      transport: ['websocket'],
-      upgrade: false,
-    };
-    socket = io('http://localhost:5000/', options);
 
-    socket.emit('counter', { ...this.state });
-    socket.on('result', (payload) => {
+
+    this.props.socket.emit('counter', { ...this.state });
+    this.props.socket.on('result', (payload) => {
       console.log(payload);
-
+      // this.props.socket.emit('user', { ...this.state });
       if (payload.counter >= 1 && payload.counter <= 6) {
         alert(
-          `Hello ${this.state.studentName}  your score is ${payload.counter} and you have Few Hassles `
+          `Hello ${payload.studentName}  your score is ${payload.counter} and you have Few Hassles `
         );
       } else if (payload.counter > 6 && payload.counter <= 12) {
         alert(
-          `Hello ${this.state.studentName}  your score is ${payload.counter} and you have Pretty Good Control `
+          `Hello ${payload.studentName}  your score is ${payload.counter} and you have Pretty Good Control `
         );
       } else if (payload.counter > 12 && payload.counter <= 17) {
         alert(
-          `Hello ${this.state.studentName}  your score is ${payload.counter} and you have Danger Zone. Watch out! `
+          `Hello ${payload.studentName}  your score is ${payload.counter} and you have Danger Zone. Watch out! `
         );
       } else if (payload.counter > 17 && payload.counter <= 22) {
         alert(
-          `Hello ${this.state.studentName}  your score is ${payload.counter} and you have Stressed Out. Take steps to reduce the stress in your life now `
+          `Hello ${payload.studentName}  your score is ${payload.counter} and you have Stressed Out. Take steps to reduce the stress in your life now `
         );
       } else if (payload.counter === 0) {
         alert(
-          `Hello ${this.state.studentName}  your score is ${payload.counter} you are cool `
+          `Hello ${payload.studentName}  your score is ${payload.counter} you are cool `
         );
       } else {
         alert(
-          `Hello ${this.state.studentName}  your score is ${payload.counter} please answer the questions `
+          `Hello ${payload.studentName}  your score is ${payload.counter} please answer the questions `
         );
       }
     });
@@ -69,53 +58,31 @@ export default class App extends React.Component {
   componentDidMount() {
     const studentName = prompt("WHAT's your name?");
     this.setState({ studentName });
-    const options = {
-      transport: ['websocket'],
-      upgrade: false,
-    };
-    socket = io('http://localhost:5000/', options);
 
-    socket.on('connection', (socket) => {
+
+    this.props.socket.on('connection', (socket) => {
       console.log('hihi');
+      this.setState({ id: socket.id })
     });
+    this.props.socket.emit("student", { studentName: studentName })
   }
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const payload = {
-      ...this.state,
-    };
-    console.log(payload);
-  };
+
   render() {
     return (
 
 
+      <>
+        <Card yesFunction={this.yesFunction} />
+        <Button
+          variant="primary"
+          onClick={this.emitCounters}
+          style={{ marginLeft: '416px', width: '527px' }}
+        >
+          see the result
+        </Button>
 
-      <Router  >
+      </>
 
-        <Navbarnav />
-
-        <Switch>
-
-          <Route path="/users">
-            <User />
-          </Route>
-          <Route path="/">
-            <Card yesFunction={this.yesFunction} />
-            <Button
-              variant="primary"
-              onClick={this.emitCounters}
-              style={{ marginLeft: '416px', width: '527px' }}
-            >
-              see the result{' '}
-            </Button>
-          </Route>
-        </Switch>
-
-      </Router >
 
 
 
