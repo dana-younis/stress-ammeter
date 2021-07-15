@@ -16,11 +16,12 @@ const socket = io(server, {
 })
 
 const queue = {
-  tickets: [],
   user: [],
+  tickets: []
 };
 app.use(cors());
 let m;
+let counter;
 
 socket.on('connection', (socket) => {
   console.log('client connected', socket.id);
@@ -28,12 +29,12 @@ socket.on('connection', (socket) => {
 
     console.log("jjjjj", payload);
     m = payload.studentName
-
+    counter = payload.counter;
   })
 
 
   socket.on('counter', (payload) => {
-    console.log(",,,", payload)
+    console.log(payload.studentName, payload.counter);
     counter = payload.counter;
 
     const ticketData = { counter: payload.counter, studentName: payload.studentName, id: uuidv4(), socketId: socket.id };
@@ -44,21 +45,32 @@ socket.on('connection', (socket) => {
 
     socket.emit('getData', { studentName: payload.studentName })
   })
-
+  let user;
   socket.on('join', (payload) => {
     console.log('userjooooooin');
     payload.studentName = m
+    payload.counter = counter;
 
     // socket.join will put the socket in a private room
-    console.log("join", m);
-    const user = { studentName: payload.studentName, id: socket.id };
+    console.log("join", payload.studentName, "id", socket.id);
+    user = { "studentName": payload.studentName, "id": socket.id, "counter": payload.counter };
+    console.log(user);
     queue.user.push(user);
     socket.join(userRoom);
     socket.to(userRoom).emit('onlineUser', user);
+
+
   });
+
+  socket.on('getAll', () => {
+    queue.user.forEach((person) => {
+      socket.emit('onlineUser', { studentName: person.studentName, id: person.id, counter: person.counter });
+    });
+  })
 
 
   socket.on('disconnect', () => {
+
     console.log(socket.id, "disconnected");
     socket.to(userRoom).emit('offlineUser', { id: socket.id });
   })

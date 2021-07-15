@@ -1,8 +1,9 @@
 // import Header from './Components/header';
 // import Main from './component/Main';
 
-import Button from 'react-bootstrap/Button';
 import React from 'react';
+import Button from 'react-bootstrap/Button';
+import 'react-bootstrap/dist/react-bootstrap.min.js';
 import Card from './component/QCard';
 
 
