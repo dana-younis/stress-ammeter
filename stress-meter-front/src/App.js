@@ -5,12 +5,14 @@ import Button from 'react-bootstrap/Button';
 import React from 'react';
 import Card from './component/QCard';
 
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       counter: 0,
       studentName: '',
+
     };
   }
 
@@ -60,7 +62,9 @@ export default class App extends React.Component {
 
     this.props.socket.on('connection', (socket) => {
       console.log('hihi');
+      this.setState({ id: socket.id })
     });
+    this.props.socket.emit("student", { studentName: studentName })
   }
 
   render() {
@@ -76,6 +80,7 @@ export default class App extends React.Component {
         >
           see the result
         </Button>
+
       </>
 
 
