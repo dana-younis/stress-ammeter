@@ -6,14 +6,13 @@ import Button from 'react-bootstrap/Button';
 import 'react-bootstrap/dist/react-bootstrap.min.js';
 import Card from './component/QCard';
 
-
+import axios from 'axios';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       counter: 0,
       studentName: '',
-
     };
   }
 
@@ -22,7 +21,6 @@ export default class App extends React.Component {
   };
   emitCounters = () => {
     console.log('kkkkkkkk');
-
 
     this.props.socket.emit('counter', { ...this.state });
     this.props.socket.on('result', (payload) => {
@@ -53,6 +51,7 @@ export default class App extends React.Component {
           `Hello ${payload.studentName}  your score is ${payload.counter} please answer the questions `
         );
       }
+      axios.post('http://localhost:5000/question', payload);
     });
   };
 
@@ -60,18 +59,15 @@ export default class App extends React.Component {
     const studentName = prompt("WHAT's your name?");
     this.setState({ studentName });
 
-
     this.props.socket.on('connection', (socket) => {
       console.log('hihi');
-      this.setState({ id: socket.id })
+      this.setState({ id: socket.id });
     });
-    this.props.socket.emit("student", { studentName: studentName })
+    this.props.socket.emit('student', { studentName: studentName });
   }
 
   render() {
     return (
-
-
       <>
         <Card yesFunction={this.yesFunction} />
         <Button
@@ -81,12 +77,7 @@ export default class App extends React.Component {
         >
           see the result
         </Button>
-
       </>
-
-
-
-
     );
   }
 }
