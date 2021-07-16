@@ -11,7 +11,7 @@ const server = http.createServer(app);
 const mongoose = require('mongoose');
 app.use(express.json());
 mongoose.connect(
-  'mongodb://localhost:27017/data?readPreference=primary&appname=MongoDB%20Compass&ssl=false',
+  'mongodb+srv://dana1234:dana1234@cluster0.zbuav.mongodb.net/stressMeter?retryWrites=true&w=majority',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
